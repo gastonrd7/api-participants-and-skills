@@ -2,15 +2,55 @@ import { Request, Response } from 'express';
 import { Participant, IParticipant } from '../models/Participant';
 import { Skill, ISkills } from '../models/Skill';
 import { createSkills } from '../controllers/skill';
-import {Types} from 'mongoose';
+import {ObjectId, Types} from 'mongoose';
+
+export const createParticipant = (req: Request, res: Response) => {
+    let item = new Participant();
+    item._id = new Types.ObjectId(),
+    item.fullName = req.body.fullName;
+    req.body.profilePicture && (item.profilePicture = req.body.profilePicture);
+    req.body.bib && (item.bib = req.body.bib);
+    req.body.age && (item.age = req.body.age);
+    req.body.gender && (item.gender = req.body.gender);
+    req.body.time && (item.time = req.body.time);
+    req.body.score && (item.score = req.body.score);
+
+    item.save((err, itemStored) => {
+        if(err) return res.status(500).send({meesage: `Error adding item in DB: ${err}`});
+        return res.status(200).send({success: true, message: "records were added successfully", data: itemStored});
+    });
+}
+
+export const updateParticipant = async (req: Request, res: Response) => {
+    var _id: Types.ObjectId;
+    try {
+        _id = Types.ObjectId(req.params.participantId);
+    } catch (e) {
+        return res.status(500).send({message: `Errr in the ID: ${e}`});
+    }
+
+    try {
+        Participant.findByIdAndUpdate({_id}, {$set:req.body}, { rawResult: true }, function(err, item){
+            if (err){
+                return res.status(500).send({message: `Error updating item in DB: ${err}`});
+            }
+            else{
+                return res.status(200).send({success: true, message: "record was updated successfully"});
+            }
+        });
+    } catch (e) {
+        return res.status(500).send({message: `Error updating item in DB: ${e}`});
+    }
+    
+}
 
 export const createParticipants = (req: Request, res: Response) => {
 
     
     let item1 = new Participant();
     item1._id = new Types.ObjectId(),
-    item1.fullNane = "Guillermina Diaz";
-    item1.profilePicture = "https://instagram.faep8-1.fna.fbcdn.net/v/t51.2885-19/s320x320/40235567_749469985391805_3730157222307561472_n.jpg?tp=1&_nc_ht=instagram.faep8-1.fna.fbcdn.net&_nc_ohc=xa3lmj_Z9yAAX8IJrxi&ccb=7-4&oh=9c6361418d5e05290f6876c1023a1398&oe=607C474E&_nc_sid=7bff83";
+    item1.fullName = "Guillermina Diaz";
+    item1.profilePicture = "https://amp.lainformacion.com/files/article_default_content/uploads/imagenes/2017/09/14/59bd7c2f6c1f7.jpeg";
     item1.bib = 1;
     item1.age = 32;
     item1.gender = "F";
@@ -19,8 +59,8 @@ export const createParticipants = (req: Request, res: Response) => {
 
     let item2 = new Participant();
     item2._id = new Types.ObjectId(),
-    item2.fullNane = "Mario Rui Diaz";
-    item2.profilePicture = "https://instagram.faep8-1.fna.fbcdn.net/v/t51.2885-19/s320x320/130826917_234691298017841_1588208876997467028_n.jpg?tp=1&_nc_ht=instagram.faep8-1.fna.fbcdn.net&_nc_ohc=_vQM7yf84acAX_3AYFT&ccb=7-4&oh=d5f1e836b0b36e083bb6197d024c9f1b&oe=607D6AC9&_nc_sid=7bff83";
+    item2.fullName = "Mario Rui Diaz";
+    item2.profilePicture = "https://amp.lainformacion.com/files/article_default_content/uploads/imagenes/2017/09/14/59bd7c2f6c1f7.jpeg";
     item2.bib = 1;
     item2.age = 32;
     item2.gender = "M";
@@ -29,8 +69,8 @@ export const createParticipants = (req: Request, res: Response) => {
 
     let item3 = new Participant();
     item3._id = new Types.ObjectId(),
-    item3.fullNane = "Martin Ruiz Diaz";
-    item3.profilePicture = "https://instagram.faep8-1.fna.fbcdn.net/v/t51.2885-19/s320x320/30981072_1000560113446570_5633230370439692288_n.jpg?tp=1&_nc_ht=instagram.faep8-1.fna.fbcdn.net&_nc_ohc=z4o4SI95iecAX9gFft8&ccb=7-4&oh=35b8fa52cf8b6e88a874050fd496d943&oe=607EF0E2&_nc_sid=7bff83";
+    item3.fullName = "Martin Ruiz Diaz";
+    item3.profilePicture = "https://amp.lainformacion.com/files/article_default_content/uploads/imagenes/2017/09/14/59bd7c2f6c1f7.jpeg";
     item3.bib = 12;
     item3.age = 12;
     item3.gender = "M";
@@ -39,8 +79,8 @@ export const createParticipants = (req: Request, res: Response) => {
 
     let item4 = new Participant();
     item4._id = new Types.ObjectId(),
-    item4.fullNane = "Gaston Ruiz Diaz";
-    item4.profilePicture = "https://instagram.faep8-1.fna.fbcdn.net/v/t51.2885-19/s150x150/26867343_1957905081128425_3208186617009274880_n.jpg?tp=1&_nc_ht=instagram.faep8-1.fna.fbcdn.net&_nc_ohc=cT9IjhMPqH4AX-B8x5r&ccb=7-4&oh=f7210ea5c255ec2d8de713bec558e694&oe=607B83A4&_nc_sid=7b02f1";
+    item4.fullName = "Gaston Ruiz Diaz";
+    item4.profilePicture = "https://amp.lainformacion.com/files/article_default_content/uploads/imagenes/2017/09/14/59bd7c2f6c1f7.jpeg";
     item4.bib = 1;
     item4.age = 32;
     item4.gender = "F";

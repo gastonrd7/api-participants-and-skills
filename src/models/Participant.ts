@@ -2,7 +2,7 @@ import {model, Schema, Document, Types} from 'mongoose';
 
 export interface IParticipant extends Document { 
     _id: Types.ObjectId;
-    fullNane: string;
+    fullName: string;
     profilePicture: string;
     bib: number;
     age: number;
@@ -13,7 +13,7 @@ export interface IParticipant extends Document {
 
 const participantSchema = new Schema({
     _id: Types.ObjectId,
-    fullNane: {
+    fullName: {
         type: String,
         required: true
     },
