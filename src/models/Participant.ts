@@ -17,16 +17,31 @@ const participantSchema = new Schema({
         type: String,
         required: true
     },
-    profilePicture: String,
-    bib: Number,
-    age: Number,
+    profilePicture: {
+        type: String,
+        default: null
+    },
+    bib: {
+        type: Number,
+        default: null
+    },
+    age: {
+        type: Number,
+        default: null
+    },
     gender: {
         type: String,
-        enum: ['M', 'F', 'OTHER']
+        enum: ['M', 'F', 'OTHER'],
+        required: true
     },
-    time: String,
-    score: Number
-
+    time: {
+        type: String,
+        default: null
+    },
+    score: {
+        type: Number,
+        default: null
+    }
 });
 
 export const Participant = model<IParticipant>('Participant', participantSchema);
