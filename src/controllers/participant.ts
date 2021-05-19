@@ -4,6 +4,17 @@ import { Skill, ISkills } from '../models/Skill';
 import { createSkills } from '../controllers/skill';
 import {ObjectId, Types} from 'mongoose';
 
+export const deleteParticipant = (req: Request, res: Response) => {
+    Participant.remove({ _id: req.params.participantId }, function(err) {
+        if (err) {
+            return res.status(500).send({meesage: `Error deleting item in DB: ${err}`});
+        }
+        else {
+            return res.status(200).send({success: true, message: "record was deleted successfully"});
+        }
+    });
+}
+
 export const createParticipant = (req: Request, res: Response) => {
     let item = new Participant();
     item._id = new Types.ObjectId(),

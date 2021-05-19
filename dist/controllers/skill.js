@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSkills = exports.createSkills = void 0;
+exports.getSkills = exports.createSkills = exports.deleteSkillsByParticipanId = void 0;
 const Skill_1 = require("../models/Skill");
 const mongoose_1 = require("mongoose");
 //import { getParticipants, createParticipants } from '../controllers/participant';
@@ -9,6 +9,17 @@ const random = (min, max) => {
     let percentage = result / 20 * 100;
     return { value: result, percentage: percentage };
 };
+const deleteSkillsByParticipanId = (req, res) => {
+    Skill_1.Skill.remove({ participantId: req.params.participantId }, function (err) {
+        if (err) {
+            return res.status(500).send({ meesage: `Error deleting item in DB: ${err}` });
+        }
+        else {
+            return res.status(200).send({ success: true, message: "record was deleted successfully" });
+        }
+    });
+};
+exports.deleteSkillsByParticipanId = deleteSkillsByParticipanId;
 const createSkills = (participantId) => {
     let strengthRandom = random(0, 20);
     let enduranceRandom = random(0, 20);

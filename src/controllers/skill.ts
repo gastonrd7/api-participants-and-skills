@@ -11,6 +11,17 @@ const random = (min: number, max: number) => {
     return {value: result, percentage: percentage};
 }
 
+export const deleteSkillsByParticipanId = (req: Request, res: Response) => {
+    Skill.remove({ participantId: req.params.participantId }, function(err) {
+        if (err) {
+            return res.status(500).send({meesage: `Error deleting item in DB: ${err}`});
+        }
+        else {
+            return res.status(200).send({success: true, message: "record was deleted successfully"});
+        }
+    });
+}
+
 export const createSkills = (participantId: Types.ObjectId) => {
 
     let strengthRandom = random(0, 20);

@@ -9,10 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getParticipants = exports.createParticipants = exports.updateParticipant = exports.createParticipant = void 0;
+exports.getParticipants = exports.createParticipants = exports.updateParticipant = exports.createParticipant = exports.deleteParticipant = void 0;
 const Participant_1 = require("../models/Participant");
 const skill_1 = require("../controllers/skill");
 const mongoose_1 = require("mongoose");
+const deleteParticipant = (req, res) => {
+    Participant_1.Participant.remove({ _id: req.params.participantId }, function (err) {
+        if (err) {
+            return res.status(500).send({ meesage: `Error deleting item in DB: ${err}` });
+        }
+        else {
+            return res.status(200).send({ success: true, message: "record was deleted successfully" });
+        }
+    });
+};
+exports.deleteParticipant = deleteParticipant;
 const createParticipant = (req, res) => {
     let item = new Participant_1.Participant();
     item._id = new mongoose_1.Types.ObjectId(),
