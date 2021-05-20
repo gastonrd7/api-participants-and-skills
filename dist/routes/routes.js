@@ -12,5 +12,5 @@ router.patch('/updateParticipant/:participantId', participant_1.updateParticipan
 router.delete('/deleteParticipant/:participantId', participant_1.deleteParticipant);
 //Skills
 router.get('/getSkills/:participantId', skill_1.getSkills);
-router.delete('/deleteSkillsByParticipanId/:participantId', skill_1.deleteSkillsByParticipanId);
+router.delete('/deleteSkillsByParticipantId/:participantId', skill_1.deleteSkillsByParticipantId);
 exports.default = router;

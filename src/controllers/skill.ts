@@ -11,7 +11,7 @@ const random = (min: number, max: number) => {
     return {value: result, percentage: percentage};
 }
 
-export const deleteSkillsByParticipanId = (req: Request, res: Response) => {
+export const deleteSkillsByParticipantId = (req: Request, res: Response) => {
     Skill.remove({ participantId: req.params.participantId }, function(err) {
         if (err) {
             return res.status(500).send({meesage: `Error deleting item in DB: ${err}`});
